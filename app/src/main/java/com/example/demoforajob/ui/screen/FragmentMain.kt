@@ -68,7 +68,7 @@ class FragmentMain : Fragment(R.layout.main_layout) {
         }
         viewModel.errorLiveData.observe(viewLifecycleOwner) {
             binding.spLayout.isRefreshing = false
-            Toast.makeText(requireActivity(), it, Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
         }
         viewModel.snackBarLiveData.observe(viewLifecycleOwner) { event ->
             loadOnlyOneTimeObserver(event) {
@@ -80,7 +80,7 @@ class FragmentMain : Fragment(R.layout.main_layout) {
         }
         viewModel.messageLiveData.observe(viewLifecycleOwner) {
             binding.spLayout.isRefreshing = false
-            Toast.makeText(requireActivity(), it, Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
         }
         viewModel.openGoogle.observe(viewLifecycleOwner) { event ->
             loadOnlyOneTimeObserver(event) {

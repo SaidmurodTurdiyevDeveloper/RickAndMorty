@@ -11,7 +11,6 @@ import com.example.demoforajob.data.source.local.room.entity.ItemDataEntity
 abstract class ApplicationDatabase : RoomDatabase() {
     abstract fun getDao(): MainDao
 
-
     companion object {
         @Volatile
         private var INSTANCE: ApplicationDatabase? = null
@@ -19,7 +18,7 @@ abstract class ApplicationDatabase : RoomDatabase() {
         fun init(context: Context): ApplicationDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
-                    context.applicationContext,
+                    context,
                     ApplicationDatabase::class.java,
                     "RickandMorty_db"
                 )

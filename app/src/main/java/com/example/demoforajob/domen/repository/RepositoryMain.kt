@@ -8,7 +8,7 @@ import retrofit2.Response
 
 interface RepositoryMain {
     suspend fun getItemsToRemote(): Response<ResponceData>
-    fun getItemsToStoradge(): Flow<List<ItemDataEntity>>
+    suspend fun getItemsToStoradge(): List<ItemDataEntity>
     suspend fun saveItemsToStoradge(list: List<ItemData>)
     suspend fun deleteItemsToStoradge(list: List<ItemDataEntity>)
 }

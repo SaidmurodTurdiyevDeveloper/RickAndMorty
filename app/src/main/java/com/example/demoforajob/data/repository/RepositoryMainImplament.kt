@@ -14,7 +14,7 @@ class RepositoryMainImplament constructor(private var api: RemoteApi, private va
 
     override suspend fun getItemsToRemote(): Response<ResponceData> = api.getCurrentData()
 
-    override fun getItemsToStoradge(): Flow<List<ItemDataEntity>> = databse.getAllItems()
+    override suspend fun getItemsToStoradge(): List<ItemDataEntity> = databse.getAllItems()
 
     override suspend fun saveItemsToStoradge(list: List<ItemData>) {
         databse.addlist(list.map {

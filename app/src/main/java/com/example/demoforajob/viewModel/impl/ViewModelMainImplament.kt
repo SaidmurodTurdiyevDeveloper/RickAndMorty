@@ -68,17 +68,12 @@ class ViewModelMainImplament constructor(
     }
 
     override fun loadItems() {
-        Timber.d("Keldi")
         viewModelScope.launch {
             loadFlow(useCaseMain.loadItems(), {
-                Timber.d("Data keldi1")
                 _loadItemsLiveData.postValue(it)
-                Timber.d("Data keldi")
-
             }, {
                 viewModelScope.launch {
-                    Timber.d("Data data kelmadi")
-                    _snackBarLiveData.postValue(Event("String"))
+                    _snackBarLiveData.postValue(Event("Data not found"))
                 }
             })
         }
