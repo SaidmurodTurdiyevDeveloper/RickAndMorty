@@ -84,6 +84,7 @@ class ViewModelMainImplament constructor(
     }
 
     override fun itemClick(data: ItemData) {
-        _openGoogle.postValue(Event(data.dataUri))
+        if (data.dataUri.isNotEmpty())
+            _openGoogle.postValue(Event(data.dataUri))
     }
 }
