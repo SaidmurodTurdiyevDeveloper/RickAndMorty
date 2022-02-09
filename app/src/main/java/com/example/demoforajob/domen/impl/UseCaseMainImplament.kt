@@ -24,34 +24,51 @@ class UseCaseMainImplament constructor(private var repositoryMain: RepositoryMai
                         ItemData(it.id, it.name, it.location.name, it.origin.name, it.image, it.url, it.status, it.species)
                     }
                     emit(MyResponce.Success(list))
-                    repositoryMain.deleteItemsToStoradge(repositoryMain.getItemsToStoradge())
+                    val oldList = repositoryMain.getItemsToStoradge()
+                    if (oldList.isNotEmpty())
+                        repositoryMain.deleteItemsToStoradge(oldList)
+
+                    repositoryMain.saveItemsToStoradge(list)
+                    Timber.d("Databasga qo`shildi")
                 } else {
                     emit(MyResponce.Message("Body is empty"))
-                    repositoryMain.deleteItemsToStoradge(repositoryMain.getItemsToStoradge())
+                    val list = repositoryMain.getItemsToStoradge()
+                    emit(MyResponce.Success(list.map {
+                        ItemData(it.defId, it.name, it.loacation, it.firstSeen, it.imageUri, "", it.status, it.spacies)
+                    }))
+                    Timber.d("Databasdan olindi")
                 }
             } else {
                 emit(MyResponce.Message(result.message()))
-                repositoryMain.deleteItemsToStoradge(repositoryMain.getItemsToStoradge())
+                val list = repositoryMain.getItemsToStoradge()
+                emit(MyResponce.Success(list.map {
+                    ItemData(it.defId, it.name, it.loacation, it.firstSeen, it.imageUri, "", it.status, it.spacies)
+                }))
+                Timber.d("Databasdan olindi")
             }
             emit(MyResponce.Loading(false))
         } catch (e: IOException) {
             Timber.d("Internet Error")
             try {
                 emit(MyResponce.Message(e.message.toString()))
-                repositoryMain.deleteItemsToStoradge(repositoryMain.getItemsToStoradge())
+                val list = repositoryMain.getItemsToStoradge()
+                emit(MyResponce.Success(list.map {
+                    ItemData(it.defId, it.name, it.loacation, it.firstSeen, it.imageUri, "", it.status, it.spacies)
+                }))
+                Timber.d("Databasdan olindi")
             } catch (ext: Exception) {
                 Timber.d("Room Error")
                 emit(MyResponce.Loading(false))
-                emit(MyResponce.Message(ext.message.toString()))
+                emit(MyResponce.Error(ext.message.toString()))
             }
         } catch (e: HttpException) {
             Timber.d("HTTP Error")
             emit(MyResponce.Loading(false))
-            emit(MyResponce.Message(e.message.toString()))
+            emit(MyResponce.Error(e.message.toString()))
         } catch (e: Exception) {
             Timber.d("Base Error\n" + e.message.toString())
             emit(MyResponce.Loading(false))
-            emit(MyResponce.Error(e.message.toString()))
+            emit(MyResponce.Message(e.message.toString()))
         }
     }
 }

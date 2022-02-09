@@ -1,9 +1,6 @@
 package com.example.demoforajob.data.source.local.room.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.demoforajob.data.source.local.room.entity.ItemDataEntity
 
 @Dao
@@ -12,8 +9,8 @@ interface MainDao {
     suspend fun getAllItems(): List<ItemDataEntity>
 
     @Delete
-    suspend fun deleteList(list: List<ItemDataEntity>)
+    suspend fun deleteList(list: List<ItemDataEntity>):Int
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addlist(list: List<ItemDataEntity>)
 }

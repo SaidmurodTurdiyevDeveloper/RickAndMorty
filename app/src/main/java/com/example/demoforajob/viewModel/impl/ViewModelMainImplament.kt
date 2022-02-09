@@ -14,7 +14,6 @@ import com.example.demoforajob.zzz_utills.sendOneParametreBlock
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class ViewModelMainImplament constructor(
     private var useCaseMain: UseCaseMain
@@ -57,7 +56,7 @@ class ViewModelMainImplament constructor(
                 }
                 is MyResponce.Message -> {
                     _loadingLiveData.postValue(false)
-                    _showToastLiveData.postValue(it.message)
+                    _messageLiveData.postValue(it.message)
                 }
                 is MyResponce.Success -> {
                     _loadingLiveData.postValue(false)
@@ -72,9 +71,7 @@ class ViewModelMainImplament constructor(
             loadFlow(useCaseMain.loadItems(), {
                 _loadItemsLiveData.postValue(it)
             }, {
-                viewModelScope.launch {
-                    _snackBarLiveData.postValue(Event("Data not found"))
-                }
+                loadItems()
             })
         }
     }
